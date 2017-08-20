@@ -72,22 +72,23 @@ class ConvNet:
         if test:
             return y_test, y_pred.numpy()
         else:
-            return f1_score(y_test, y_pred.numpy(), average='binary')
+            corrects = (y_test == y_pred.numpy()).sum()
+            return 1.0 * corrects / data.num_instances
 
     def trainEpoch(self, train_data, dev_data, num_epochs):
-        best_f1 = 0.0
+        best_acc = 0.0
         best_epoch = None
         for epoch in range(num_epochs):
             print('Epoch {}'.format(epoch), end=', ')
             train_data.shuffleBatches()
             iter_loss = self.train(train_data)
             print('training Loss: {:.3}'.format(iter_loss), end=', ')
-            train_f1 = self.evaluate(train_data)
-            print('train f1 score: {}'.format(train_f1), end=', ')
-            dev_f1 = self.evaluate(dev_data)
-            print('dev f1 score: {}'.format(dev_f1))
-            if dev_f1 >= best_f1:
-                best_f1 = dev_f1
+            train_acc = self.evaluate(train_data)
+            print('train accuracy: {}'.format(train_acc), end=', ')
+            dev_acc = self.evaluate(dev_data)
+            print('dev accuracy: {}'.format(dev_acc))
+            if dev_acc >= best_acc:
+                best_acc = dev_acc
                 best_epoch = epoch
                 torch.save(self.model, self.model_save_path)
         print("Saved the best model. (epoch " + str(best_epoch) + ")")

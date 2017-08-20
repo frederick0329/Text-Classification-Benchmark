@@ -53,32 +53,32 @@ class tModels():
             pickle.dump(model, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
     def predict(self, test_data):
-        return test_data[1], self.clf.predict(test_data[0])
+        return self.evaluate(self.clf.predict(test_data[0]), test_data[1], test=True)
    
-    def evaluate(self, y_pred, y_true, test=False, labels=None):
+    def evaluate(self, y_pred, y_true, test=False):
         if test:
-            print(classification_report(y_true, y_pred.T, target_names=labels)) 
+            return np.squeeze(y_true), y_pred.T
         else:    
-            #print(f1_score(y_true, y_pred.T, average='micro'))
-            return f1_score(y_true, y_pred.T, average='binary')
+            corrects = (np.squeeze(y_true) == y_pred.T).sum()
+            return 1.0 * corrects / y_true.shape[0]
 
 
     def crossValidation(self, folds, grid, classifier, feature, dl):
-        max_f1 = 0
+        max_acc = 0
         for config in grid:
-            micro_f1_sum = 0
+            acc_sum = 0
             for i in range(folds):
                 train_data, dev_data = dl.prepareData(feature, fold_id=i)
                 clf = self.createClassifier(config)
                 clf.fit(train_data[0], np.squeeze(train_data[1]))
                 pred_y = clf.predict(dev_data[0])
-                micro_f1_sum += self.evaluate(pred_y, dev_data[1], test=False)
-            micro_f1_avg = float(micro_f1_sum) / float(folds)
+                acc_sum += self.evaluate(pred_y, dev_data[1], test=False)
+            acc_avg = float(acc_sum) / float(folds)
             print('{}'.format(config), end=', ')
-            print(' : {}'.format(micro_f1_avg))
-            if micro_f1_avg >= max_f1:
+            print(' : {}'.format(acc_avg))
+            if acc_avg >= max_acc:
                 best_config = config
-                max_f1 = micro_f1_avg
+                max_acc = acc_avg
         print('best config: {}'.format(best_config))
         return best_config
 

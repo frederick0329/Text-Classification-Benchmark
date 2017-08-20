@@ -19,33 +19,28 @@ class DataLoader:
     It also supports extracting devlopment set from training data with
     the fold_id parameter in the prepareData method for cross validation. 
     """
-    def __init__(self, train_folder, test_folder, labels_file, num_folds):
-        self.train_filenames = glob.glob(train_folder + '/*')
-        self.test_filenames = glob.glob(test_folder + '/*')
-        with open(labels_file) as f:
-            self.labels = f.read().splitlines() 
-        self.num_files_per_fold = int(len(self.train_filenames) / num_folds)
+    def __init__(self, train_filename, test_filename, num_folds):
+        self.train_filename = train_filename
+        self.test_filename = test_filename
         self.num_folds = num_folds        
         self.vectorizer = None
 
-    def readInput(self, filenames):
+    def readInput(self, filename):
         """
         Reads the input and extracts the text, labels, and segment index
         and pack them into a tuple.
         """
         x = []
         y = []
-        segment_idx = []
-        for filename in filenames:
-            # Read the file and split into lines
-            lines = open(filename, 'r').readlines()
-            for i, line in enumerate(lines):
-                label, sent = line.split('\t')
-                sent = self.normalizeString(sent)
-                x.append(sent)
-                y.append(label)
-                segment_idx.append([float(i)/len(lines)])
-        return (x, y, segment_idx)
+        pairs = []
+        # Read the file and split into lines
+        lines = open(filename, 'r').readlines()
+        for i, line in enumerate(lines):
+            label, sent = line.split('\t')
+            sent = self.normalizeString(sent)
+            x.append(sent)
+            y.append(label)
+        return (x, y)
     
     def normalizeString(self, string):
         """
@@ -82,29 +77,32 @@ class DataLoader:
         and the fold_id will be the development data.  
         """
         if fold_id >= 0:
+            pairs = self.readInput(self.train_filename)
+            num_instance_per_fold = int(len(pairs[0])  / self.num_folds)
             #fold_id in (0,num_folds - 1)
             if fold_id == 0:
-                pairs = self.readInput(self.train_filenames[(fold_id + 1) * self.num_files_per_fold:])
+                train_pairs = (pairs[0][(fold_id + 1) * num_instance_per_fold:], pairs[1][(fold_id + 1) * num_instance_per_fold:])
             elif fold_id == self.num_folds - 1:
-                pairs = self.readInput(self.train_filenames[0:fold_id * self.num_files_per_fold])
+                train_pairs = (pairs[0][0:fold_id * num_instance_per_fold], pairs[1][0:fold_id * num_instance_per_fold])
             else:
-                pairs = self.readInput(self.train_filenames[0:fold_id * self.num_files_per_fold] + self.train_filenames[(fold_id + 1)* self.num_files_per_fold:])
-            vectorizer = self.makeVocab(pairs, feature)
-            train = self.stringToNumpy(pairs, vectorizer)
+                train_pairs = (pairs[0][0:fold_id * num_instance_per_fold] + pairs[0][(fold_id + 1) * num_instance_per_fold:], pairs[1][0:fold_id * num_instance_per_fold] + pairs[1][(fold_id + 1) * num_instance_per_fold:])
+            vectorizer = self.makeVocab(train_pairs, feature)
+            train = self.stringToNumpy(train_pairs, vectorizer)
+            
             if fold_id == 0:
-                pairs = self.readInput(self.train_filenames[0:(fold_id + 1)* self.num_files_per_fold])
+                dev_pairs = (pairs[0][0:(fold_id + 1)* num_instance_per_fold], pairs[1][0:(fold_id + 1)* num_instance_per_fold])
             elif fold_id == self.num_folds - 1:
-                pairs = self.readInput(self.train_filenames[fold_id * self.num_files_per_fold:])
+                dev_pairs = (pairs[0][fold_id * num_instance_per_fold:], pairs[1][fold_id * num_instance_per_fold:])
             else :
-                pairs = self.readInput(self.train_filenames[fold_id * self.num_files_per_fold: (fold_id + 1) * self.num_files_per_fold])
-            dev = self.stringToNumpy(pairs, vectorizer)
+                dev_pairs = (pairs[0][fold_id * num_instance_per_fold: (fold_id + 1) * num_instance_per_fold], pairs[1][fold_id * num_instance_per_fold: (fold_id + 1) * num_instance_per_fold])
+            dev = self.stringToNumpy(dev_pairs, vectorizer)
             return train, dev
         else:
-            pairs = self.readInput(self.train_filenames)
+            pairs = self.readInput(self.train_filename)
             vectorizer = self.makeVocab(pairs, feature)
             self.vectorizer = vectorizer
             train = self.stringToNumpy(pairs, vectorizer)
-            pairs = self.readInput(self.test_filenames)
+            pairs = self.readInput(self.test_filename)
             test = self.stringToNumpy(pairs, vectorizer)
             return train, test
 

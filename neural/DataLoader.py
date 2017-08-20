@@ -4,12 +4,12 @@ import re
 import random
 from Dict import Dict
 from Data import Data
-from nltk.stem import WordNetLemmatizer
-wnl = WordNetLemmatizer()
+
 class DataLoader:
-    def __init__(self, train_folder, test_folder, freq_threshold, max_batch_size, max_length, min_length):
-        self.train_filenames = glob.glob(train_folder + '/*')
-        self.test_filenames = glob.glob(test_folder + '/*')
+    def __init__(self, train_file, dev_file, test_file, freq_threshold, max_batch_size, max_length, min_length):
+        self.train_file = train_file
+        self.dev_file = dev_file
+        self.test_file = test_file
         self.dev_ratio = 0.1
         self.en_dict = None
         self.MAX_LENGTH = max_length
@@ -17,6 +17,7 @@ class DataLoader:
         self.max_batch_size = max_batch_size
         self.freq_threshold = freq_threshold
         self.class_inv_freq = None
+
     def indexesFromSentence(self, sent):        
         words = sent.split(' ')
         index = []
@@ -46,14 +47,9 @@ class DataLoader:
         string = re.sub(r"\s{2,}", " ", string)   
         return string.strip().lower()
 
-    def lemmatizeString(self, s):
-        return " ".join([wnl.lemmatize(i) for i in s.split()])
-
-    def readInput(self, filenames):
-        lines = []
-        for filename in filenames:
-            lines += open(filename, 'r').readlines()
-    
+    def readInput(self, filename):
+        
+        lines = open(filename, 'r').readlines()
         pairs = []
         for line in lines:
             label, sent = line.split('\t')
@@ -61,13 +57,11 @@ class DataLoader:
             pairs.append((sent, label))
         return pairs
 
-
     def trimSent(self, pair):
         tmp = pair[0].split()
         if len(tmp) <= self.MAX_LENGTH:
             return pair
         return (" ".join(tmp[:self.MAX_LENGTH]), pair[1])
-    
 
     def trimSents(self, pairs):
         return [self.trimSent(pair) for pair in pairs]
@@ -81,36 +75,32 @@ class DataLoader:
         self.class_inv_freq = [1.0 * len(pairs) / (len(class_count) * count) for count in class_count]
 
     def prepareData(self):
-        num_train = int(round(len(self.train_filenames) * (1 - self.dev_ratio)))
-        
-        #random.shuffle(self.train_filenames)
-
         #read train data
         print("Reading Training Data...")
-        pairs = self.readInput(self.train_filenames)
-        train_pairs = self.readInput(self.train_filenames[:num_train])
-        print("Read %s sentence pairs" % len(train_pairs))
+        pairs = self.readInput(self.train_file)
+        print("Read %s sentence pairs" % len(pairs))
+        
+        if len(self.dev_file) == 0:
+            num_train = int(len(pairs) * 0.1)
+            train_pairs = pairs[:num_train]
+            dev_pairs = pairs[num_train:]
+        else:
+            train_pairs = pairs
+            print("Reading Development Data...")
+            dev_pairs = self.readInput(self.dev_file)
+            print("Read %s sentence pairs" % len(dev_pair1s))
+        
+        print("Reading Testing Data...")
+        test_pairs = self.readInput(self.test_file)
+        print("Read %s sentence pairs" % len(test_pairs))
+        
         self.countClassInvFreq(train_pairs)
         train_pairs = self.trimSents(train_pairs)
         self.en_dict = Dict()
         for pair in train_pairs:
             self.en_dict.addSentence(pair[0])
   
-        print("Reading Development Data...")
-        dev_pairs = self.readInput(self.train_filenames[num_train:])
-        print("Read %s sentence pairs" % len(dev_pairs))
-        #pairs = self.trimSents(pairs)
-        #for pair in dev_pairs:
-        #    self.en_dict.addSentence(pair[0])
-
-        print("Reading Testing Data...")
-        test_pairs = self.readInput(self.test_filenames)
-        print("Read %s sentence pairs" % len(test_pairs))
-        #pairs = self.trimSents(pairs)
-        #for pair in test_pairs:
-        #    self.en_dict.addSentence(pair[0])
-
-        print("Number of words before threshold: %d" % self.en_dict.n_words)
+        print("Number of words before removing word frequency below threshold: %d" % self.en_dict.n_words)
         self.en_dict.removeLowFreqWords(self.freq_threshold) 
         print("Number of words after threshold: %d" % self.en_dict.n_words)
 
@@ -118,9 +108,6 @@ class DataLoader:
         dev = Data(self.stringToIndex(dev_pairs), self.max_batch_size)
         test = Data(self.stringToIndex(test_pairs), self.max_batch_size)
 
-        
-
-        #pairs = self.trimSents(pairs)
         return self.en_dict, train, dev, test
 
     def stringToIndex(self, pairs):
