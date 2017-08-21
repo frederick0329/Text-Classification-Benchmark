@@ -29,9 +29,9 @@ parser.add_argument('-emb_size', type=int, default=300, help='size of word embed
 parser.add_argument('-learning_rate', type=float, default=0.001, help='initial learning rate for adam [default: 0.001]')
 parser.add_argument('-bidirectional', type=bool, default=True, help='using bidirectional RNN [default: True]')
 
-parser.add_argument('-train_file', type=str, default='/home/chieh/ff2/text_classification/data/First_Party_Collection_Use_train.txt', help='train file [default: ./data]')
+parser.add_argument('-train_file', type=str, default='../data/preprocessed/ag_news_train.txt', help='train file [default: ./data]')
 parser.add_argument('-dev_file', type=str, default='', help='dev file [default: ./data]')
-parser.add_argument('-test_file', type=str, default='/home/chieh/ff2/text_classification/data/First_Party_Collection_Use_test.txt', help='test file [default: ./data]')
+parser.add_argument('-test_file', type=str, default='../data/preprocessed/ag_news_train.txt', help='test file [default: ./data]')
 
 parser.add_argument('-model_save_folder', type=str, default='./models', help='model save folder folder [default: ./neural/models/segment_level]')
 

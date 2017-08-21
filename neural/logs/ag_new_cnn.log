@@ -1,0 +1,34 @@
+Reading Training Data...
+Read 120000 sentence pairs
+Reading Testing Data...
+Read 7600 sentence pairs
+[3021, 2949, 2990, 3040]
+Number of words before removing word frequency below threshold: 27259
+Number of words after threshold: 27259
+Epoch 0, training Loss: 3.53e+02, train accuracy: 0.37466666666666665, dev accuracy: 0.34108333333333335
+Epoch 1, training Loss: 3.23e+02, train accuracy: 0.5830833333333333, dev accuracy: 0.47764814814814816
+Epoch 2, training Loss: 3e+02, train accuracy: 0.6329166666666667, dev accuracy: 0.5153148148148148
+Epoch 3, training Loss: 2.67e+02, train accuracy: 0.8710833333333333, dev accuracy: 0.6715925925925926
+Epoch 4, training Loss: 2.3e+02, train accuracy: 0.9196666666666666, dev accuracy: 0.7583148148148148
+Epoch 5, training Loss: 1.91e+02, train accuracy: 0.9491666666666667, dev accuracy: 0.8018518518518518
+Epoch 6, training Loss: 1.57e+02, train accuracy: 0.9633333333333334, dev accuracy: 0.826462962962963
+Epoch 7, training Loss: 1.33e+02, train accuracy: 0.966, dev accuracy: 0.82925
+Epoch 8, training Loss: 1.12e+02, train accuracy: 0.9733333333333334, dev accuracy: 0.8443611111111111
+Epoch 9, training Loss: 98.7, train accuracy: 0.9773333333333334, dev accuracy: 0.8493518518518518
+Epoch 10, training Loss: 85.2, train accuracy: 0.9828333333333333, dev accuracy: 0.8493796296296297
+Epoch 11, training Loss: 74.4, train accuracy: 0.9830833333333333, dev accuracy: 0.8537314814814815
+Epoch 12, training Loss: 64.7, train accuracy: 0.9881666666666666, dev accuracy: 0.8663611111111111
+Epoch 13, training Loss: 57.3, train accuracy: 0.989, dev accuracy: 0.8638333333333333
+Epoch 14, training Loss: 54.0, train accuracy: 0.99025, dev accuracy: 0.8648055555555556
+Epoch 15, training Loss: 45.9, train accuracy: 0.9940833333333333, dev accuracy: 0.8714259259259259
+Epoch 16, training Loss: 43.1, train accuracy: 0.9950833333333333, dev accuracy: 0.875
+Epoch 17, training Loss: 38.7, train accuracy: 0.9951666666666666, dev accuracy: 0.8753703703703704
+Epoch 18, training Loss: 34.7, train accuracy: 0.9969166666666667, dev accuracy: 0.8770092592592592
+Epoch 19, training Loss: 33.9, train accuracy: 0.99725, dev accuracy: 0.8741666666666666
+Epoch 20, training Loss: 28.3, train accuracy: 0.9979166666666667, dev accuracy: 0.8789166666666667
+Epoch 21, training Loss: 26.3, train accuracy: 0.9984166666666666, dev accuracy: 0.8788148148148148
+Epoch 22, training Loss: 25.4, train accuracy: 0.9989166666666667, dev accuracy: 0.8818703703703704
+Epoch 23, training Loss: 23.1, train accuracy: 0.99925, dev accuracy: 0.8816944444444444
+Epoch 24, training Loss: 21.4, train accuracy: 0.9991666666666666, dev accuracy: 0.8791666666666667
+Saved the best model. (epoch 22)
+testing accuracy: 0.8811842105263158

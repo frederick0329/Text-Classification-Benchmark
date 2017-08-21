@@ -16,8 +16,8 @@ def preprocess_ag_news():
         for row in reader:
             txt = ""
             for s in row[1:]:
-                txt = txt + " " + re.sub("^\s*(.-)\s*$", "%1", s).replace("\\n", "\n")
-            f_train.write(row[0] + '\t' + txt + '\n')
+                txt = txt + " " + s.replace("\\", " ")
+            f_train.write(str(int(row[0]) - 1) + '\t' + txt + '\n')
     f_train.close()
     
     with open(raw_test_file, 'r') as f:
@@ -25,8 +25,8 @@ def preprocess_ag_news():
         for row in reader:
             txt = ""
             for s in row[1:]:
-                txt = txt + " " + re.sub("^\s*(.-)\s*$", "%1", s).replace("\\n", "\n")
-            f_test.write(row[0] + '\t' + txt + '\n')
+                txt = txt + " " + s.replace("\\", " ")
+            f_test.write(str(int(row[0]) - 1) + '\t' + txt + '\n')
     f_test.close()
 
 

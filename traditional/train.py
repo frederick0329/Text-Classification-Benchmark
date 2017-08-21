@@ -14,9 +14,9 @@ parser.add_argument('-num_folds', type=int, default=5, help='num of folds for cr
 parser.add_argument('-feature', type=str, default='tfidf', choices=['tfidf', 'tf'], help='features [default: tfidf]')
 parser.add_argument('-classifier', type=str, default='lr', choices=['lr', 'svm', 'nbsvm', 'mnb', 'rf'], help='classfiers [default: lr]')
 
-parser.add_argument('-train_file', type=str, default='/home/chieh/ff2/text_classification/data/First_Party_Collection_Use_train.txt', help='train file [default: ./data]')
+parser.add_argument('-train_file', type=str, default='../data/preprocessed/ag_news_train.txt', help='train file [default: ./data]')
 parser.add_argument('-dev_file', type=str, default='', help='dev file [default: ./data]')
-parser.add_argument('-test_file', type=str, default='/home/chieh/ff2/text_classification/data/First_Party_Collection_Use_test.txt', help='test file [default: ./data]')
+parser.add_argument('-test_file', type=str, default='../data/preprocessed/ag_news_test.txt', help='test file [default: ./data]')
 
 parser.add_argument('-model_save_folder', type=str, default='./models', help='model save folder folder [default: ./neural/models/segment_level]')
 

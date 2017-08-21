@@ -82,6 +82,7 @@ class DataLoader:
         
         if len(self.dev_file) == 0:
             num_train = int(len(pairs) * 0.1)
+            random.shuffle(pairs)
             train_pairs = pairs[:num_train]
             dev_pairs = pairs[num_train:]
         else:

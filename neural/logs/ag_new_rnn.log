@@ -1,0 +1,18 @@
+Reading Training Data...
+Read 120000 sentence pairs
+Reading Testing Data...
+Read 120000 sentence pairs
+Number of words before removing word frequency below threshold: 27065
+Number of words after threshold: 27065
+Epoch 0, training Loss: 1.72e+02, train accuracy: 0.90825, dev accuracy: 0.8455277777777778
+Epoch 1, training Loss: 66.9, train accuracy: 0.96775, dev accuracy: 0.8607685185185185
+Epoch 2, training Loss: 30.6, train accuracy: 0.9894166666666667, dev accuracy: 0.853287037037037
+Epoch 3, training Loss: 11.9, train accuracy: 0.9941666666666666, dev accuracy: 0.8496018518518519
+Epoch 4, training Loss: 4.75, train accuracy: 0.9991666666666666, dev accuracy: 0.8527407407407407
+Epoch 5, training Loss: 2.18, train accuracy: 0.9994166666666666, dev accuracy: 0.8531388888888889
+Epoch 6, training Loss: 1.31, train accuracy: 0.9988333333333334, dev accuracy: 0.8551481481481481
+Epoch 7, training Loss: 1.32, train accuracy: 0.9995, dev accuracy: 0.8549629629629629
+Epoch 8, training Loss: 2.2, train accuracy: 0.9993333333333333, dev accuracy: 0.8502592592592593
+Epoch 9, training Loss: 3.27, train accuracy: 0.9936666666666667, dev accuracy: 0.8490185185185185
+Saved the best model. (epoch 1)
+testing accuracy: 0.871475
