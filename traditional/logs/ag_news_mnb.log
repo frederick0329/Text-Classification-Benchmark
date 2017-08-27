@@ -1,0 +1,10 @@
+{'fit_prior': True, 'alpha': 0.1},  : 0.9046166666666666
+{'fit_prior': True, 'alpha': 0.5},  : 0.9044416666666667
+{'fit_prior': True, 'alpha': 1},  : 0.9037499999999999
+{'fit_prior': True, 'alpha': 2},  : 0.9022333333333334
+{'fit_prior': False, 'alpha': 0.1},  : 0.9046083333333333
+{'fit_prior': False, 'alpha': 0.5},  : 0.9043916666666668
+{'fit_prior': False, 'alpha': 1},  : 0.9038166666666667
+{'fit_prior': False, 'alpha': 2},  : 0.9022416666666666
+best config: {'fit_prior': True, 'alpha': 0.1}
+testing accuracy: 0.9172368421052631
