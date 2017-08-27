@@ -14,7 +14,7 @@ There are two types of ML algorithms.
 ## Current Results
 |   accuracy    |  RNN  | CNN  | LR  | SVM  | MNB  | NBSVM |
 | ------------- | ----- | ---- | --- | ---- | ---- | ---   | 
-|   AG's News   |  87.1% | 88.1%  | 92.3%| 92.6% | 91.7% | |
+|   AG's News   |  87.1% | 88.1%  | 92.3%| 92.6% | 91.7% | 91.1% |
 
 ## Reference
 Recurrent Neural Network (RNN): [Character-level Convolutional Networks for Text Classification](https://arxiv.org/pdf/1509.01626.pdf)
