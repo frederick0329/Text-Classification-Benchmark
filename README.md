@@ -6,7 +6,27 @@ There are two types of ML algorithms.
 
 - traditional - logistic regression, support vector machines, mutinomial naive bayes with tf-idf features. (Note: mutinomail naive bayes uses tf features because of the independent assumption.)
 
-- neural - Recurrent Neural Networks and Convolutional Neural Networks.
+- neural - Recurrent Neural Networks and Convolutional Neural Networks. (Implemented in pytorch)
+
+## Requirement
+* python 3
+
+* pytorch (for neural models)
+
+* check requirements.txt for more
+ 
+```
+conda install pytorch torchvision -c soumith
+```
+
+For different environments, please check [pytorch](http://pytorch.org/).
+
+## Downloading google's word2vec
+
+```
+sh get_word2vec.sh
+gunzip GoogleNews-vectors-negative300.bin.gz
+```
 
 ## Datasets
 * AG's News Topic Classification Dataset
